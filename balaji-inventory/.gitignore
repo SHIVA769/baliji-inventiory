@@ -1,0 +1,17 @@
+# Dependencies
+node_modules/
+
+# Local secrets — never commit (use Render / host "Environment" instead)
+.env
+.env.local
+.env.*.local
+server/.env
+client/.env
+
+# Build output
+client/dist/
+*.log
+
+# OS
+.DS_Store
+Thumbs.db

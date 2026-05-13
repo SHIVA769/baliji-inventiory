@@ -8,6 +8,9 @@ import transactionsRouter from "./routes/transactions.js";
 import { requireAuth } from "./middleware/auth.js";
 
 const isProd = process.env.NODE_ENV === "production";
+if (!process.env.JWT_SECRET && process.env.SESSION_SECRET) {
+  process.env.JWT_SECRET = process.env.SESSION_SECRET;
+}
 if (!process.env.JWT_SECRET) {
   if (isProd) {
     console.error("FATAL: Set JWT_SECRET in server/.env for production.");
@@ -25,7 +28,10 @@ if (!process.env.ADMIN_PASSWORD && !isProd) {
 
 const app = express();
 const PORT = process.env.PORT || 5000;
-const MONGODB_URI = process.env.MONGODB_URI || "mongodb://127.0.0.1:27017/balaji_inventory";
+const MONGODB_URI =
+  process.env.MONGODB_URI ||
+  process.env.MONGO_URI ||
+  "mongodb://127.0.0.1:27017/balaji_inventory";
 
 app.use(cors({ origin: true }));
 app.use(express.json());
@@ -56,7 +62,7 @@ mongoose
   .catch((err) => {
     console.error("MongoDB connection error:", err.message);
     console.error(
-      "Check MONGODB_URI in server/.env (Atlas: network IP allowlist, user/password, mongodb+srv URI)."
+      "Check MONGODB_URI or MONGO_URI in server/.env (Atlas: IP allowlist, user/password, URI)."
     );
     process.exit(1);
   });
