@@ -1,0 +1,22 @@
+# Render Blueprint — https://render.com/docs/blueprint-spec
+# Repo root MUST contain a "server" folder (with server/package.json). If your GitHub repo
+# does not, push your full project first or remove rootDir and set paths in the Render UI.
+# Set secret values in the Render dashboard (Environment), not in this file.
+services:
+  - type: web
+    name: balaji-inventory-api
+    runtime: node
+    region: oregon
+    plan: free
+    rootDir: server
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: MONGO_URI
+        sync: false
+      - key: SESSION_SECRET
+        sync: false
+      - key: ADMIN_PASSWORD
+        sync: false
